@@ -49,7 +49,7 @@ void	call_inst_five(int c_v, t_list **a, t_list **b)
 	int		val[2];
 
 	p = (*a);
-	val[0] = p->val; 
+	val[0] = p->val;
 	val[1] = val[0];
 	while (p)
 	{
@@ -81,16 +81,18 @@ void	call_inst_plus(int c_v, t_list **a, t_list **b)
 {
 	static int	c_;
 
-	while (c_++ < (c_v / 2))
+	if (!c_)
+		c_ = c_v;
+	while (--c_ > (c_v / 2))
 		push_stk(a, b, 'b');
-	if ((*a)->val > (*a)->next->val && (*b)->val < (*b)->next->val)
-	{
-		swap_stk(a, 'N');
-		swap_stk(b, 's');
-	}
-	else if ((*a)->val > (*a)->next->val)
-		swap_stk(a, 'a');
-	else if ((*b)->val < (*b)->next->val)
+//	if ((*a)->val > (*a)->next->val && (*b)->val < (*b)->next->val)
+//	{
+//		swap_stk(a, 'N');
+//		swap_stk(b, 's');
+//	}
+//	else if ((*a)->val > (*a)->next->val)
+//		swap_stk(a, 'a');
+	if ((*b)->val < (*b)->next->val)
 		swap_stk(b, 'b');
 	else
 	{
@@ -101,14 +103,15 @@ void	call_inst_plus(int c_v, t_list **a, t_list **b)
 		return ;
 	}
 	if (!check_dup_sort(a))
-	{printf("{{{{{  %d  }}}}}}\n",c_);
-		return ;}
-	if (c_ - 1 < (c_v / 2))
+		return ;
+	if (c_ + 1 > (c_v / 2))
 	{
 		rev_retate_stk(a, 'N');
 		rev_retate_stk(b, 's');
+		c_++;
 	}
-	call_inst_plus(c_v, a, b);
+	if (c_)
+		call_inst_plus(c_v, a, b);
 }
 
 void	call_inst_(int c_v, t_list **a, t_list **b)
