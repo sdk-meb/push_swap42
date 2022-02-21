@@ -43,21 +43,13 @@ int	check_dup_sort(t_list	**stk)
 void	algo_sorted(int count_val, t_list **stk_a)
 {
 	t_list	**stk_b;
-	int		c;
 
-	c = count_val / 2;
-	if (count_val <= 3)
-		call_inst_th(count_val, stk_a, 'a');
-	else
-	{
-		stk_b = (t_list **)malloc(sizeof(stk_b));
-		*stk_b = NULL;
-		//if (count_val <= 5)
-		//	call_inst_five(count_val, stk_a, stk_b);
-		//else
-		//	all_sort(stk_a, stk_b, count_val);
-		ft_lstclear(stk_b);
-	}
+	stk_b = (t_list **)malloc(sizeof(stk_b));
+	if (!stk_b)
+		return ;
+	*stk_b = NULL;
+	call_inst_(count_val, stk_a, stk_b);
+	ft_lstclear(stk_b);
 }
 
 t_list	**great_list(int count, char **stk)

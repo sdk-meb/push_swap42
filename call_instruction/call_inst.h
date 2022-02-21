@@ -15,6 +15,8 @@
 
 # include "../sorted.h"
 
-void	call_inst_th(int count, t_list **a, char name_stk);
+void	call_inst_(int c_v, t_list **a, t_list **b);
+int	    three_fore(t_list **a);
+
 
 #endif
