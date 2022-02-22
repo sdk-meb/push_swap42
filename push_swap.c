@@ -73,18 +73,17 @@ t_list	**great_list(int count, char **stk)
 int	main(int count, char **stk)
 {
 	t_list	**stack_a;
-//	t_list	*q;
+	t_list	*q;
 
-	
 	stack_a = great_list(count, stk);
 	if (check_dup_sort(stack_a))
 		algo_sorted(count - 1, stack_a);
-//	q = *stack_a;
-//	while (q)
-//	{
-//		printf("%d\n", q->val);
-//		q = q->next;
-//	}
+	q = *stack_a;
+	while (q)
+	{
+		printf("%d\n", q->val);
+		q = q->next;
+	}
 	ft_lstclear(stack_a);
 	return (0);
 }
