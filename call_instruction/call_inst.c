@@ -81,38 +81,42 @@ void	call_inst_plus(int c_v, t_list **a, t_list **b)
 {
 	static int	c_;
 
-	if ((*a)->val > (*a)->next->val && (*b)->val < (*b)->next->val)
+	if ((*a)->val > (*a)->next->val && (*b)->val > (*b)->next->val)
 	{
 		swap_stk(a, 'N');
 		swap_stk(b, 's');
 	}
 	else if ((*a)->val > (*a)->next->val)
 		swap_stk(a, 'a');
-	else if ((*b)->val < (*b)->next->val)
+	else if ((*b)->val > (*b)->next->val)
 		swap_stk(b, 'b');
-	else 
+	else if (c_ < c_v)
 	{
 		retate_stk(a, 'N');
-		retate_stk(b, 's');
+		retate_stk(b, 'r');
 		c_++;
 		call_inst_plus(c_v, a, b);
 		return ;
 	}
-	if (!check_dup_sort(a) && !check_dup_sort(b))
-		return ;
-	if (c_ && c_ < c_v)
+	if (!check_dup_sort(b))
 	{
-		rev_retate_stk(a, 'N');
-		rev_retate_stk(b, 's');
+		while ((*a)->val > (*a)->prev->val)
+			retate_stk(a, 'a');
+		return ;
+	}
+	if (c_)
+	{
+			rev_retate_stk(a, 'N');
+			rev_retate_stk(b, 'r');
 		c_--;
 	}
-	if (c_ < 100)
-		call_inst_plus(c_v, a, b);
+	call_inst_plus(c_v, a, b);
 }
 
 void	call_inst_(int c_v, t_list **a, t_list **b)
 {
-	int c;
+	int	c;
+	int max;
 
 	c = 0;
 	if (c_v <= 3)
@@ -126,7 +130,30 @@ void	call_inst_(int c_v, t_list **a, t_list **b)
 		while (c++ < (c_v / 2))
 			push_stk(a, b, 'b');
 		call_inst_plus(c_v, a, b);
-		while (c--)
+		max = (*a)->prev->val;
+		while (*b && (*b)->val > max)
+		{
 			push_stk(b, a, 'a');
+			retate_stk(a, 'a');
+		}
+		while (*b)
+		{
+			if ((*b)->val < (*a)->val)
+				push_stk(b, a, 'a');
+			if (*b && (*b)->val > (*a)->val)
+				retate_stk(a, 'a');
+			if (*b && (*b)->val > max)
+			{
+				while (max != (*a)->prev->val)
+					retate_stk(a, 'a');
+				while (*b && (*b)->val > max)
+				{
+					push_stk(b, a, 'a');
+					retate_stk(a, 'a');
+				}
+			}
+		}
+		while ((*a)->val > (*a)->prev->val)
+			retate_stk(a, 'a');
 	}
 }

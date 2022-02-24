@@ -23,6 +23,6 @@ void	push_stk(t_list **stk, t_list **stk_to, char c);
 void	swap_stk(t_list **stk, char name_stk);
 void	retate_stk(t_list **stk, char name_stk);
 void	rev_retate_stk(t_list **stk, char name_stk);
-int	check_dup_sort(t_list	**stk);
+int check_dup_sort(t_list	**stk);
 
 #endif

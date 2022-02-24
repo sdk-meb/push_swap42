@@ -79,11 +79,11 @@ int	main(int count, char **stk)
 	if (check_dup_sort(stack_a))
 		algo_sorted(count - 1, stack_a);
 	q = *stack_a;
-	while (q)
-	{
-		printf("%d\n", q->val);
-		q = q->next;
-	}
+//	while (q)
+//	{
+//		printf("%d\n", q->val);
+//		q = q->next;
+//	}
 	ft_lstclear(stack_a);
 	return (0);
 }

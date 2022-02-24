@@ -22,7 +22,7 @@ OBJ_LIST = list/ft_lstadd_back.o  list/ft_lstclear.o  list/ft_lstnew.o \
 all: $(NAME)
 
 $(NAME) : $(OBJ_LIST) $(OBJ_SRC)
-	@ar -cr $(NAME) $(OBJ_SRC) $(OBJ_LIST)
+	@ar -r $(NAME) $(OBJ_SRC) $(OBJ_LIST)
 
 clean :
 	rm -rf $(OBJ_LIST) $(OBJ_SRC)
