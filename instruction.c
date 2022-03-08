@@ -28,6 +28,9 @@ void	swap_stk(t_list **stk, char name_stk)
 	swap_val = (*stk)->val;
 	(*stk)->val = (*stk)->next->val;
 	(*stk)->next->val = swap_val;
+	swap_val = (*stk)->x_sort;
+	(*stk)->x_sort = (*stk)->next->x_sort;
+	(*stk)->next->x_sort = swap_val;
 	if (name_stk != 'N')
 	{
 		write(1, "s", 1);

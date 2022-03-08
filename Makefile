@@ -18,14 +18,15 @@ OBJ_SRC = ft_atoi.o instruction.o push_swap.o call_instruction/call_inst.o
 
 OBJ_LIST = list/ft_lstadd_back.o  list/ft_lstclear.o  list/ft_lstnew.o \
 			list/ft_lstadd_front.o list/ft_lstlast.o
+OBJ_MATH = math/math.o
 
 all: $(NAME)
 
-$(NAME) : $(OBJ_LIST) $(OBJ_SRC)
-	@ar -r $(NAME) $(OBJ_SRC) $(OBJ_LIST)
+$(NAME) : $(OBJ_LIST) $(OBJ_SRC) $(OBJ_MATH)
+	@ar -r $(NAME) $(OBJ_SRC) $(OBJ_LIST) $(OBJ_MATH)
 
 clean :
-	rm -rf $(OBJ_LIST) $(OBJ_SRC)
+	rm -rf $(OBJ_LIST) $(OBJ_SRC) $(OBJ_MATH)
 
 fclean : clean
 	rm -rf ${NAME}

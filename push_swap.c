@@ -18,7 +18,7 @@ int	check_dup_sort(t_list	**stk)
 	int			val[2];
 
 	nod = *stk;
-	val[1] = 0;
+	val[1] = -33;
 	while (nod)
 	{
 		val[0] = nod->val;
@@ -32,7 +32,9 @@ int	check_dup_sort(t_list	**stk)
 				exit (-1);
 			}
 			if (val[0] > node->val)
-				val[1] = 1;
+				val[1] = nod->x_sort++;
+			else
+				++(node->x_sort);
 			node = node->next;
 		}
 		nod = nod->next;
@@ -76,14 +78,14 @@ int	main(int count, char **stk)
 	t_list	*q;
 
 	stack_a = great_list(count, stk);
-	if (check_dup_sort(stack_a))
+	if (check_dup_sort(stack_a) != -33)
 		algo_sorted(count - 1, stack_a);
 	q = *stack_a;
-//	while (q)
-//	{
-//		printf("%d\n", q->val);
-//		q = q->next;
-//	}
+	while (q)
+	{
+		//printf("%d______%d\n", q->vouch,q->x_sort );
+		q = q->next;
+	}
 	ft_lstclear(stack_a);
 	return (0);
 }

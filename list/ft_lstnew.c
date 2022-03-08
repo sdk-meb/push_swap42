@@ -16,10 +16,11 @@ t_list	*ft_lstnew(int num)
 {
 	t_list	*node;
 
-	node = (t_list *)malloc (sizeof(*node));
+	node = (t_list *)calloc (sizeof(*node), 1);
 	if (!node)
 		return (NULL);
 	node->val = num;
+	node->x_sort = -1;
 	node->prev = NULL;
 	node->next = NULL;
 	return (node);

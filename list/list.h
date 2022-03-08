@@ -18,6 +18,8 @@ typedef struct s_list
 {
 	struct s_list	*prev;
 	int				val;
+	bool			vouch;
+	int				x_sort;
 	struct s_list	*next;
 }							t_list;
 

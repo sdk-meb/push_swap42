@@ -1,32 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
+/*   math.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mes-sadk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/21 09:09:38 by mes-sadk          #+#    #+#             */
-/*   Updated: 2022/02/10 14:17:35 by mes-sadk         ###   ########.fr       */
+/*   Created: 2022/02/27 01:50:22 by mes-sadk          #+#    #+#             */
+/*   Updated: 2022/02/27 01:50:25 by mes-sadk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../sorted.h"
-//node(new) add to list in the header
+#ifndef	MATH_H
+# define    MATH_H
 
-void	ft_lstadd_front(t_list **lst, t_list *new)
-{
-	if (!(lst && new))
-	{
-		ft_lstclear(lst);
-		exit (-1);
-	}
-	if (!*lst)
-	{	
-		*lst = new;
-		new->prev = new;
-		return ;
-	}
-	new->prev = (*lst)->prev;
-	(*lst)->prev = new;
-	new->next = *lst;
-	*lst = new;
-}
+char	module(int		*val);
+char	evan_odd(int	*val, char p, int to_p);
+int	cmp_val(int y, int x, char triat);
+
+#endif
