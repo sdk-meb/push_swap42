@@ -11,6 +11,13 @@
 /* ************************************************************************** */
 #include "sorted.h"
 
+void	ft_error(t_list **stk)
+{
+	ft_lstclear(stk);
+	write (1, "error", 5);
+	exit (-1);
+}
+
 int	check_dup_sort(t_list	**stk)
 {
 	t_list		*node;
@@ -26,11 +33,7 @@ int	check_dup_sort(t_list	**stk)
 		while (node)
 		{
 			if (val[0] == node->val)
-			{
-				ft_lstclear(stk);
-				write (1, "error", 5);
-				exit (-1);
-			}
+				ft_error(stk);
 			if (val[0] > node->val)
 				val[1] = nod->x_sort++;
 			else
@@ -63,6 +66,8 @@ t_list	**great_list(int count, char **stk)
 		write (1, "error", 5);
 		exit (-1);
 	}
+	// if (stk[1][0] == '\"')
+	// 	stk = ft_split(stk);
 	lst = (t_list **)malloc(sizeof(lst));
 	if (!lst)
 		exit (-1);
@@ -83,7 +88,7 @@ int	main(int count, char **stk)
 	q = *stack_a;
 	while (q)
 	{
-		//printf("%d______%d\n", q->vouch,q->x_sort );
+		//printf("___%d______\n",q->x_sort );
 		q = q->next;
 	}
 	ft_lstclear(stack_a);

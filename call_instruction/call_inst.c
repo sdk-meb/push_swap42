@@ -14,16 +14,14 @@
 int	check_sort(t_list **stk, char order)
 {
 	t_list	*p;
-	int		val;
 
 	p = *stk;
 	while (p && p->next)
 	{
-		val = p->val;
-		p = p->next;
-		if ((order == 'c' && val > p->val)
-			|| (order == 'd' && val < p->val))
+		if ((order == 'c' && p->next->val < p->val)
+			^ (order == 'd' && p->next->val > p->val))
 			return (1);
+		p = p->next;
 	}
 	return (0);
 }
@@ -56,6 +54,8 @@ void	processing_the_ways(int **q, int r, int c_v)
 {
 	int	y[2];
 
+	if (!(*q)[0] || !(*q)[2])
+		return ;
 	if ((*q)[1] != (*q)[3])
 	{
 		y[0] = c_v - r;
@@ -97,34 +97,39 @@ void	processing_the_ways(int **q, int r, int c_v)
 			(*q)[2] = c_v - r - (*q)[2];
 			(*q)[1] = (*q)[3];
 		}
-	}
-		
+	}		
 }
 
 void	do_inst(t_list	**a, t_list	**b, int *q)
 {
 	if (q[5] == q[7])
-	{	
-		while (q[5] == -1 && q[4] && q[6]-- && q[4]--)
+	{
+		while (q[5] == -1 && q[4] > 0 && q[6] > 0 && q[4]-- && q[6]--)
 		{
-			rev_retate_stk(a, 'N');
-			rev_retate_stk(b, 's');
+			rev_retate_stk(a, 's');
+			rev_retate_stk(b, 'N');
 		}
-		while (q[5] == 1 && q[4]-- && q[6]--)
+		while (q[5] == 1 && q[4] > 0&& q[6] > 0&& q[4]-- && q[6]--)
 		{
-			retate_stk(a, 'N');
-			retate_stk(b, 's');
+			retate_stk(a, 's');
+			retate_stk(b, 'N');
 		}
 	}
 	while (q[5] == 1 && q[4]-- > 0)
-		retate_stk(a, 'a');	
+		retate_stk(a, 'a');
 	while (q[5] == -1 && q[4]-- > 0)
 		rev_retate_stk(a, 'a');
 	while (q[7] == 1 && q[6]-- > 0)
 		retate_stk(b, 'b');
 	while (q[7] == -1 && q[6]-- > 0)
 		rev_retate_stk(b, 'b');
-	push_stk(b, a,'a');
+	push_stk(b, a, 'a');
+	t_list	*h = *a;
+	while (h)
+	{
+		printf("___%d______\n",h->x_sort );
+		h = h->next;
+	}
 }
 
 void	low_inst(t_list	**a, t_list	**b, int r, int c_v)
@@ -147,25 +152,26 @@ void	low_inst(t_list	**a, t_list	**b, int r, int c_v)
 		q[1] = 1;
 		p[1] = 0;
 		sa = *a;
-		while (sa && ((sb->x_sort > sa->x_sort) || ((*a)->x_sort != low_val(-33) && !p[1])))
+		while (sa && sb->val < sa->val && )
 		{
-			if (sb->x_sort > sa->x_sort)
-				p[1] = 1;
 			q[0]++;
 			sa = sa->next;
 		}
-		if (q[0] > r / 2)
+		if (!sa)
+			q[0] = 0;
+		if (q[0] > (r + 1) / 2)
 		{
 			q[1] = -1;
 			q[0] = r - q[0];
 		}
-		if (p[0] == 1 && q[2] > (c_v - r ) / 2)
+		if (p[0] == 1 && q[2] > (c_v - r + 1) / 2)
 		{
 				q[3] = -1;
 				p[0] = -1;
 		}
+		printf("q[0] = %d___ q[2] = %d\n", q[0]*q[1],q[2]*q[3]);
 		processing_the_ways(&q, r, c_v);
-		printf("");
+		printf("processing_the_ways    q[0] = %d___ q[2] = %d\n", q[0]*q[1],q[2]*q[3]);
 		if (q[9] == -33 || (q[1] != q[3] && q[0] + q[2] < q[9]) || (q[1] == q[3] && cmp_val(q[0], q[2], 'M' ) < q[9]))
 		{
 			q[4] = q[0];
@@ -176,10 +182,11 @@ void	low_inst(t_list	**a, t_list	**b, int r, int c_v)
 			if (q[1] != q[3])
 				q[9] = q[0] + q[2];
 		}
+		printf("q[4] = %d___ q[6]************ = %d\n", q[4]*q[5],q[6]*q[7]);
 		q[2] += p[0];
 		sb = sb->next;
 	}
-//	do_inst(a, b, q);
+	do_inst(a, b, q);
 	free(q);
 //	if (*b)
 //		low_inst(a, b, ++r, c_v);
@@ -304,64 +311,6 @@ void	call_inst_five(int c_v, t_list **a, t_list **b)
 	push_stk(b, a, 'a');
 }
 
-void	call_inst_dec(int c_v, t_list **b)
-{
-	static int	c_;
-
-	if (!(*b))
-		return ;
-	if ((*b)->val < (*b)->next->val)
-		swap_stk(b, 'a');
-	else if (c_ < c_v)
-	{
-		retate_stk(b, 'a');
-		c_++;
-		call_inst_dec(c_v, b);
-		return ;
-	}
-	if (!check_sort(b, 'd'))
-	{
-	//	while ((*a)->val > (*a)->prev->val)
-	//		retate_stk(a, 'a');
-		return ;
-	}
-	if (c_)
-	{
-			rev_retate_stk(b, 'a');
-		c_--;
-	}
-	call_inst_dec(c_v, b);
-}
-
-void	call_inst_cro(int c_v, t_list **b)
-{
-	static int	c_;
-
-	if (!(*b))
-		return ;
-	if ((*b)->val > (*b)->next->val)
-		swap_stk(b, 'a');
-	else if (c_ < c_v)
-	{
-		retate_stk(b, 'a');
-		c_++;
-		call_inst_cro(c_v, b);
-		return ;
-	}
-	if (!check_sort(b, 'c'))
-	{
-	//	while ((*a)->val > (*a)->prev->val)
-	//		retate_stk(a, 'a');
-		return ;
-	}
-	if (c_)
-	{
-			rev_retate_stk(b, 'a');
-		c_--;
-	}
-	call_inst_cro(c_v, b);
-}
-
 void	call_swap(t_list **a, t_list **b)
 {
 	if ((*a) && (*b) && (*a)->next && (*b)->next
@@ -378,9 +327,8 @@ void	call_swap(t_list **a, t_list **b)
 
 void	call_inst_(int c_v, t_list **a, t_list **b)
 {
-	int	range[4];
 	int	d;
-	int r;
+	int	r;
 
 	if (c_v <= 3)
 		call_inst_th(c_v, a, 'a');
@@ -388,45 +336,67 @@ void	call_inst_(int c_v, t_list **a, t_list **b)
 		call_inst_fore(c_v, a, b);
 	else if (c_v == 5)
 		call_inst_five(c_v, a, b);
-	else if(c_v <= 100)
-	{ 
+	else
+	{
 		r = lis(a, c_v);
-		range[0] = (c_v / 4) - 1;
- 		range[1] = (c_v / 4) * 2 - 2;
- 		range[2] = (c_v / 4) * 2 - 1;
-		range[3] = (c_v / 4) * 3 - 2;
-		while (range[1] >= -1)
+		d = c_v;
+		while (d--)
 		{
-			d = (c_v / 4) * 2;
-			while (d > 0)
-			{
-				while ((*a) && (*a)->x_sort >= range[2] && (*a)->x_sort <= range[3])
-				{
-					if (!(*a)->vouch)
-						push_stk(a, b, 'b');
-					else
-						retate_stk(a, 'a');
-					d--;
-				}
-				while ((*a) && (*a)->x_sort >= range[0] && (*a)->x_sort <= range[1])
-				{
-					if (!(*a)->vouch)
-					{		
-						push_stk(a, b, 'b');
-						retate_stk(b, 'b');
-					}
-					else
-						retate_stk(a, 'a');
-					d--;
-				}
-				if (d && (*a) && ((*a)->x_sort < range[0] || (*a)->x_sort > range[3] || (*a)->vouch))
-					retate_stk(a, 'a');
-			}
-			range[1] = range[0] - 1;
-			range[0] = -1;
-			range[2] = range[3] + 1;
-			range[3] = c_v - 2;
+			if (!(*a)->vouch)
+				push_stk(a, b, 'b');
+			else
+				retate_stk(a, 'a');
 		}
+	t_list	*q = *a;
+	while (q)
+	{
+		printf("___%d______\n",q->x_sort );
+		q = q->next;
+	}
+		low_inst(a, b, r, c_v);
+		low_inst(a, b, ++r, c_v);
+		low_inst(a, b, ++r, c_v);
+		low_inst(a, b, ++r, c_v);
+	}
+}
+
+	// int	range[4];
+// range[0] = (c_v / 4) - 1;
+ 		// range[1] = (c_v / 4) * 2 - 2;
+ 		// range[2] = (c_v / 4) * 2 - 1;
+		// range[3] = (c_v / 4) * 3 - 2;
+		// while (range[1] >= -1)
+		// {
+		// 	d = (c_v / 4) * 2;
+		// 	while (d > 0)
+		// 	{
+		// 		while ((*a) && (*a)->x_sort >= range[2] && (*a)->x_sort <= range[3])
+		// 		{
+		// 			if (!(*a)->vouch)
+		// 				push_stk(a, b, 'b');
+		// 			else
+		// 				retate_stk(a, 'a');
+		// 			d--;
+		// 		}
+		// 		while ((*a) && (*a)->x_sort >= range[0] && (*a)->x_sort <= range[1])
+		// 		{
+		// 			if (!(*a)->vouch)
+		// 			{		
+		// 				push_stk(a, b, 'b');
+		// 				retate_stk(b, 'b');
+		// 			}
+		// 			else
+		// 				retate_stk(a, 'a');
+		// 			d--;
+		// 		}
+		// 		if (d && (*a) && ((*a)->x_sort < range[0] || (*a)->x_sort > range[3] || (*a)->vouch))
+		// 			retate_stk(a, 'a');
+		// 	}
+		// 	range[1] = range[0] - 1;
+		// 	range[0] = -1;
+		// 	range[2] = range[3] + 1;
+		// 	range[3] = c_v - 2;
+		//}
 	// 	t_list *q = *a;
 	// while (q)
 	// {
@@ -438,7 +408,58 @@ void	call_inst_(int c_v, t_list **a, t_list **b)
 	// {
 	// 	printf("%d______%d___%d\n", q->vouch,q->x_sort,q->val );
 	// 	q = q->next;
-	// }
-		low_inst(a, b, r, c_v);
-	}
-}
+	// }	
+// void	call_inst_dec(int c_v, t_list **b)
+// {
+// 	static int	c_;
+// 	if (!(*b))
+// 		return ;
+// 	if ((*b)->val < (*b)->next->val)
+// 		swap_stk(b, 'a');
+// 	else if (c_ < c_v)
+// 	{
+// 		retate_stk(b, 'a');
+// 		c_++;
+// 		call_inst_dec(c_v, b);
+// 		return ;
+// 	}
+// 	if (!check_sort(b, 'd'))
+// 	{
+// 	//	while ((*a)->val > (*a)->prev->val)
+// 	//		retate_stk(a, 'a');
+// 		return ;
+// 	}
+// 	if (c_)
+// 	{
+// 			rev_retate_stk(b, 'a');
+// 		c_--;
+// 	}
+// 	call_inst_dec(c_v, b);
+// }
+// void	call_inst_cro(int c_v, t_list **b)
+// {
+// 	static int	c_;
+// 	if (!(*b))
+// 		return ;
+// 	if ((*b)->val > (*b)->next->val)
+// 		swap_stk(b, 'a');
+// 	else if (c_ < c_v)
+// 	{
+// 		retate_stk(b, 'a');
+// 		c_++;
+// 		call_inst_cro(c_v, b);
+// 		return ;
+// 	}
+// 	if (!check_sort(b, 'c'))
+// 	{
+// 	//	while ((*a)->val > (*a)->prev->val)
+// 	//		retate_stk(a, 'a');
+// 		return ;
+// 	}
+// 	if (c_)
+// 	{
+// 			rev_retate_stk(b, 'a');
+// 		c_--;
+// 	}
+// 	call_inst_cro(c_v, b);
+// }

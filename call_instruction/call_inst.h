@@ -17,5 +17,6 @@
 
 void	call_inst_(int c_v, t_list **a, t_list **b);
 int     three_fore(t_list **a);
+int	check_sort(t_list **stk, char order);
 
 #endif
