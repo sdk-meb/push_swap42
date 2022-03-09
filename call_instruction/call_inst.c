@@ -11,9 +11,33 @@
 /* ************************************************************************** */
 #include "call_inst.h"
 
-#include "call_inst.h"
+int	check_sort(t_list **stk, char order)
+{
+	t_list	*p;
+	int		val;
 
-int	high_val(int lg_l[])
+	p = *stk;
+	while (p && p->next)
+	{
+		val = p->val;
+		p = p->next;
+		if ((order == 'c' && val > p->val)
+			|| (order == 'd' && val < p->val))
+			return (1);
+	}
+	return (0);
+}
+
+int	low_val(int x)
+{
+	static int t;
+
+	if (x != -33)
+		t = x;
+	return (t);
+}
+
+int	high_val(int *lg_l)
 {
 	int a;
 	int h_val;
@@ -35,7 +59,7 @@ void	processing_the_ways(int **q, int r, int c_v)
 	if ((*q)[1] != (*q)[3])
 	{
 		y[0] = c_v - r;
-		y[1] = y[0] - *q[2] - (*q)[0];
+		y[1] = y[0] - (*q)[2] - (*q)[0];
 		if ((*q)[1] == 1 && y[1] < y[0] / 2 && y[1] < (*q)[2] && y[1] >= 0)
 		{
 			(*q)[2] = y[1];
@@ -74,6 +98,7 @@ void	processing_the_ways(int **q, int r, int c_v)
 			(*q)[1] = (*q)[3];
 		}
 	}
+		
 }
 
 void	do_inst(t_list	**a, t_list	**b, int *q)
@@ -107,23 +132,25 @@ void	low_inst(t_list	**a, t_list	**b, int r, int c_v)
 	int		*q;
 	t_list	*sb;
 	t_list	*sa;
-	int		p;
+	int		p[2];
 
 	q = calloc(sizeof(int), 10);
 	q[3] = 1;
 	q[5] = 1;
 	q[7] = 1;
 	q[9] = -33;
-	p = 1;
+	p[0] = 1;
 	sb = *b;
 	while (sb)
 	{
 		q[0] = 0;
 		q[1] = 1;
+		p[1] = 0;
 		sa = *a;
-		while (sa && (sb->x_sort > sa->x_sort
-				|| (sb->x_sort > sa->prev->x_sort && !q[0])))
+		while (sa && ((sb->x_sort > sa->x_sort) || ((*a)->x_sort != low_val(-33) && !p[1])))
 		{
+			if (sb->x_sort > sa->x_sort)
+				p[1] = 1;
 			q[0]++;
 			sa = sa->next;
 		}
@@ -132,12 +159,13 @@ void	low_inst(t_list	**a, t_list	**b, int r, int c_v)
 			q[1] = -1;
 			q[0] = r - q[0];
 		}
-		if (p == 1 && q[2] > (c_v - r ) / 2)
+		if (p[0] == 1 && q[2] > (c_v - r ) / 2)
 		{
 				q[3] = -1;
-				p = -1;
+				p[0] = -1;
 		}
 		processing_the_ways(&q, r, c_v);
+		printf("");
 		if (q[9] == -33 || (q[1] != q[3] && q[0] + q[2] < q[9]) || (q[1] == q[3] && cmp_val(q[0], q[2], 'M' ) < q[9]))
 		{
 			q[4] = q[0];
@@ -148,13 +176,13 @@ void	low_inst(t_list	**a, t_list	**b, int r, int c_v)
 			if (q[1] != q[3])
 				q[9] = q[0] + q[2];
 		}
-		q[2] += p;
+		q[2] += p[0];
 		sb = sb->next;
 	}
-	do_inst(a, b, q);
+//	do_inst(a, b, q);
 	free(q);
-	if (*b)
-		low_inst(a, b, ++r, c_v);
+//	if (*b)
+//		low_inst(a, b, ++r, c_v);
 }
 
 int	lis(t_list **stk, int c_v)
@@ -181,34 +209,18 @@ int	lis(t_list **stk, int c_v)
 	int h_val = high_val(lg_l);
 	v = (*stk)->prev;
 	c_v = -33;
-	while (v != *stk)
+	while (c_v == -33 || v != (*stk)->prev)
 	{
 		if (lg_l[v->x_sort + 1] == h_val && (v->x_sort < c_v || c_v == -33))
 		{
 			v->vouch = 1;
 			c_v = v->x_sort;
-			h_val--;
+			if (h_val-- == 1)
+				low_val(v->x_sort);
 		}
 		v = v->prev;
 	}
 	return (high_val(lg_l));
-}
-
-int	check_sort(t_list **stk, char order)
-{
-	t_list	*p;
-	int		val;
-
-	p = *stk;
-	while (p && p->next)
-	{
-		val = p->val;
-		p = p->next;
-		if ((order == 'c' && val > p->val)
-			|| (order == 'd' && val < p->val))
-			return (1);
-	}
-	return (0);
 }
 
 void	call_inst_th(int count, t_list **a, char name_stk)
@@ -415,7 +427,18 @@ void	call_inst_(int c_v, t_list **a, t_list **b)
 			range[2] = range[3] + 1;
 			range[3] = c_v - 2;
 		}
-		//sort_re(a);
+	// 	t_list *q = *a;
+	// while (q)
+	// {
+	// 	printf("%d______%d___%d\n", q->vouch,q->x_sort,q->val );
+	// 	q = q->next;
+	// }
+	// q = *b;
+	// while (q)
+	// {
+	// 	printf("%d______%d___%d\n", q->vouch,q->x_sort,q->val );
+	// 	q = q->next;
+	// }
 		low_inst(a, b, r, c_v);
 	}
 }
