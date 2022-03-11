@@ -28,7 +28,7 @@ int	check_sort(t_list **stk, char order)
 
 int	low_val(int x, bool rest)
 {
-	static int t;
+	static int	t;
 
 	if ((x != -33 && x < t) || rest)
 		t = x;
@@ -37,7 +37,7 @@ int	low_val(int x, bool rest)
 
 int	high_val(int x, bool rest)
 {
-	static int t;
+	static int	t;
 
 	if ((x != -33 && x > t) || rest)
 		t = x;
@@ -107,7 +107,7 @@ void	do_inst(t_list	**a, t_list	**b, int *q)
 			rev_retate_stk(a, 's');
 			rev_retate_stk(b, 'N');
 		}
-		while (q[5] == 1 && q[4] > 0&& q[6] > 0&& q[4]-- && q[6]--)
+		while (q[5] == 1 && q[4] > 0 && q[6] > 0 && q[4]-- && q[6]--)
 		{
 			retate_stk(a, 's');
 			retate_stk(b, 'N');
@@ -346,6 +346,9 @@ void	call_inst_(int c_v, t_list **a, t_list **b)
 		low_val((*a)->x_sort, 1);
 		high_val((*a)->prev->x_sort, 1);
 		low_inst(a, b, r, c_v);
+		c_v = rev_or_re(a, -1, c_v);
+		while ((*a)->x_sort != -1)
+			retate_stk(a, 'a');
 	}
 }
 

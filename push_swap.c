@@ -81,6 +81,7 @@ int	main(int count, char **stk)
 {
 	t_list	**stack_a;
 	t_list	*q;
+	int i = -1;
 
 	stack_a = great_list(count, stk);
 	if (check_dup_sort(stack_a) != -33)
@@ -88,7 +89,7 @@ int	main(int count, char **stk)
 	q = *stack_a;
 	while (q)
 	{
-		printf("___%d_____%d_\n",q->x_sort,q->vouch  );
+		printf("___%d______\n",q->x_sort - (i++)  );
 		q = q->next;
 	}
 	ft_lstclear(stack_a);
