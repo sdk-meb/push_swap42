@@ -88,7 +88,7 @@ int	main(int count, char **stk)
 	q = *stack_a;
 	while (q)
 	{
-		//printf("___%d______\n",q->x_sort );
+		printf("___%d_____%d_\n",q->x_sort,q->vouch  );
 		q = q->next;
 	}
 	ft_lstclear(stack_a);

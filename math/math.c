@@ -13,7 +13,7 @@
 
 char	module(int *val)
 {
-	if (*val > 0)
+	if (*val >= 0)
 		return ('P');
 	*val = *val * (-1);
 	return ('N');
