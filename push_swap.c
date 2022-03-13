@@ -72,10 +72,10 @@ t_list	**great_list(int count, char **stk)
 	*lst = NULL;
 	if (count == 2)
 	{
-	 	stk = ft_split(stk[1], ' ', &count);
-		while (count > 0)
+		stk = ft_split(stk[1], ' ', &count);
+		while (count-- > 0)
 		{
-			ft_lstadd_front(lst, ft_lstnew(ft_atoi(lst, stk[--count])));
+			ft_lstadd_front(lst, ft_lstnew(ft_atoi(lst, stk[count])));
 			free(stk[count]);
 		}
 		free (stk);
@@ -98,7 +98,7 @@ int	main(int count, char **stk)
 	q = *stack_a;
 	while (q)
 	{
-	//	printf("___%d______\n",q->x_sort - (i++) 	);
+		//printf("___%d______\n",q->x_sort - (i++) 	);
 		q = q->next;
 	}
 	ft_lstclear(stack_a);
