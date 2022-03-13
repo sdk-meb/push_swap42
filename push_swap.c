@@ -66,13 +66,21 @@ t_list	**great_list(int count, char **stk)
 		write (1, "error", 5);
 		exit (-1);
 	}
-	// if (stk[1][0] == '\"')
-	// 	stk = ft_split(stk);
 	lst = (t_list **)malloc(sizeof(lst));
 	if (!lst)
 		exit (-1);
 	*lst = NULL;
-	while (--count)
+	if (count == 2)
+	{
+	 	stk = ft_split(stk[1], ' ', &count);
+		while (count > 0)
+		{
+			ft_lstadd_front(lst, ft_lstnew(ft_atoi(lst, stk[--count])));
+			free(stk[count]);
+		}
+		free (stk);
+	}
+	while (--count > 0)
 		ft_lstadd_front(lst, ft_lstnew(ft_atoi(lst, stk[count])));
 	return (lst);
 }
@@ -81,15 +89,16 @@ int	main(int count, char **stk)
 {
 	t_list	**stack_a;
 	t_list	*q;
-	int i = -1;
-
+	int i = -2;
+	i++;
+	
 	stack_a = great_list(count, stk);
 	if (check_dup_sort(stack_a) != -33)
-		algo_sorted(count - 1, stack_a);
+		algo_sorted(ft_lstsize(*stack_a), stack_a);
 	q = *stack_a;
 	while (q)
 	{
-		printf("___%d______\n",q->x_sort - (i++)  );
+	//	printf("___%d______\n",q->x_sort - (i++) 	);
 		q = q->next;
 	}
 	ft_lstclear(stack_a);

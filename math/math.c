@@ -47,3 +47,21 @@ char	evan_odd(int *val, char p, int to_p)
 		*val+= to_p;
 	return ('O');
 }
+
+int	low_val(int x, bool rest)
+{
+	static int	t;
+
+	if ((x != -33 && x < t) || rest)
+		t = x;
+	return (t);
+}
+
+int	high_val(int x, bool rest)
+{
+	static int	t;
+
+	if ((x != -33 && x > t) || rest)
+		t = x;
+	return (t);
+}

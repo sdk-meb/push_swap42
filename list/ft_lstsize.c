@@ -1,23 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   math.h                                             :+:      :+:    :+:   */
+/*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mes-sadk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/27 01:50:22 by mes-sadk          #+#    #+#             */
-/*   Updated: 2022/02/27 01:50:25 by mes-sadk         ###   ########.fr       */
+/*   Created: 2021/11/21 11:10:37 by mes-sadk          #+#    #+#             */
+/*   Updated: 2021/11/22 10:21:04 by mes-sadk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef	MATH_H
-# define    MATH_H
+#include "list.h"
 
-#include "../sorted.h"
+int	ft_lstsize(t_list *lst)
+{
+	int		i;
+	t_list	*p;
 
-char	module(int		*val);
-char	evan_odd(int	*val, char p, int to_p);
-int	cmp_val(int y, int x, char triat);
-int	low_val(int x, bool rest);
-int	high_val(int x, bool rest);
-
-#endif
+	i = 0;
+	p = lst;
+	while (p && lst && ++i)
+		p = p->next;
+	return (i);
+}
