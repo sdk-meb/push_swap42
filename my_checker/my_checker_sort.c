@@ -6,7 +6,7 @@
 /*   By: mes-sadk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 14:53:31 by mes-sadk          #+#    #+#             */
-/*   Updated: 2022/03/13 14:53:33 by mes-sadk         ###   ########.fr       */
+/*   Updated: 2022/03/14 12:40:23 by mes-sadk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "checker.h"
@@ -36,100 +36,60 @@ char	*ft_join(char *inst, char buff)
 	ft_memcpy(iinst, inst, i - 1);
 	free (inst);
 	iinst[i - 1] = buff;
+	iinst[i] = '\0';
 	return (iinst);
 }
 
-void	check_inst(char *inst, t_list **stk)
+void	check_do_inst(t_list **a, t_list **b, char *inst)
 {
-	while (*inst && *(inst + 1))
+	if ((!(*inst) || !(*(inst + 1))) || (*inst != 'p' && *inst != 's' && *inst != 'r'))
+		ft_error(NULL, NULL, NULL);
+	if (*inst == 'p' && ((*(++inst) == 'a' && push_stk(b, a)) || (*inst == 'b' && push_stk(a, b)) || !(*(--inst))))
+		inst++;
+	else if (*inst == 's' && ((*(++inst) == 'a' && swap_stk(a)) || (*inst == 'b' && swap_stk(b)) || (*inst == 's' && swap_stk(b) && swap_stk(a)) || !(*(--inst))))
+		inst++;
+	else if (*inst == 'r')
 	{
-		if (*inst == 'p' && (*(++inst) == 'a' || *inst == 'b' || !(*(--inst))))
+		if ((*(++inst) == 'a' && retate_stk(a)) || (*inst == 'b' && retate_stk(b)))
 			inst++;
-		else if (*inst == 's' && (*(++inst) == 'a' || *inst == 'b' ||  *inst == 's' || !(*(--inst))))
+		else if ((*(inst + 1) == '\0' || *(inst + 1) == '\n') && ((*inst) == 'r' && retate_stk(a) && retate_stk (b)))
 			inst++;
-		else if (*inst == 'r')
-		{
-			if (*(++inst) == 'a' || *inst == 'b')
-				inst++;
-			else if ((*(inst + 1) == '\0' || *(inst + 1) == '\n') && *(inst) == 'r')
-				inst++;
-			else if (*(inst) == 'r' && (*(++inst) == 'a'|| *inst == 'b' || *(inst) == 'r'))
-				inst++;
-			else
-				break;
-		}
+		else if ((*inst) == 'r' && ((*(++inst) == 'a' && rev_retate_stk(a)) || (*inst == 'b' && rev_retate_stk(b)) || ((*inst) == 'r' && rev_retate_stk(b) && rev_retate_stk(a))))
+			inst++;
 		else
-			break;
-		if (*inst)
-			inst++;
+			ft_error(NULL, NULL, NULL);
 	}
-	printf("\n\n________________________________________\n");
-	if (*inst)
-		ft_error(stk);
-	
-}
-
-void	do_inst_checker(t_list **stk_a, t_list **stk_b, char *inst)
-{
-	if (*inst == 'r' && (*(inst + 2) == '\n' || *(inst + 3) == '\0'))
-	{
-		if (*(++inst) == 'a' || (*inst == 'r' && *(inst + 1) != 'r'))
-			retate_stk(stk_a);
-		if (*inst == 'b' || (*inst == 'r' && *(inst + 1) != 'r'))
-			retate_stk(stk_b);
-	}
-	else if (*inst == 'r' && *inst++)
-	{
-		if (*(++inst) == 'a' || *inst == 'r')
-			rev_retate_stk(stk_a);
-		if (*inst == 'b' || *inst == 'r')
-			rev_retate_stk(stk_b);
-	}
-	if (*inst == 's')
-	{
-		if (*(++inst) == 'a' || *inst == 's')
-			swap_stk(stk_a);
-		if (*inst == 'b' || *inst == 's')
-			swap_stk(stk_b);
-		inst++;
-	}
-	if (*inst == 'p')
-	{
-		if (*(++inst) == 'b')
-			push_stk(stk_a, stk_b);
-		else if (*inst == 'a')
-			push_stk(stk_b, stk_a);
-		inst++;
-	}
-	if (*inst != '\n' || *inst == '\0')
-		return ;
-	do_inst_checker(stk_a, stk_b, inst++);
+	if (*inst == '\n' && *(++inst))
+		check_do_inst(a, b, inst);
+	else if (*inst)
+		ft_error(NULL, NULL, NULL);
 }
 
 int	main(int count, char **stk)
 {
 	char	buff[1];
-	char	*inst;
 	t_list	**stk_a;
 	t_list	**stk_b;
-	t_list	*q;
 
-	inst = NULL;
-	while (read(0, buff, 1) > 0)
-		inst = ft_join(inst, buff[0]);
-	stk_a = great_list(count, stk);
-	check_inst(inst, stk_a);
-	stk_b = malloc(sizeof(stk_b));
-	do_inst_checker(stk_a, stk_b, inst);
-	q = *stk_a;
-	while (q)
+	check_dup_sort(stk_a = great_list(count, stk));
+	if (read(0, buff, 1) <= 0)
 	{
-		printf("___%d______\n",q->val);
-		q = q->next;
+		ft_lstclear(stk_a);
+		write(1, "KO\n", 3);
+		return (0);
 	}
+	stk_b = malloc(sizeof(stk_b));
+	*stk_b = NULL;
+	*stk = NULL;
+	*stk = ft_join(*stk, buff[0]);
+	while (read(0, buff, 1) > 0)
+		*stk = ft_join(*stk, buff[0]);
+	ft_error(stk_a, stk_b, *stk);
+	check_do_inst(stk_a, stk_b, *stk);
+	check_sort(stk_a, stk_b);
 	ft_lstclear(stk_a);
-	free(stk_b);
-	if (inst)
-		free (inst);
+	ft_lstclear(stk_b);
+	if (*stk)
+		free (*stk);
 	return (0);
 }

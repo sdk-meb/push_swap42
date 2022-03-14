@@ -17,17 +17,16 @@
 /*                      ___       ___                        */
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
 
-void	swap_stk(t_list **stk)
+int	swap_stk(t_list **stk)
 {
 	int		swap_val;
 
-	if (!*stk)
-		return ;
-	if ((*stk)->next == NULL)
-		return ;
+	if (!*stk || !(*stk)->next)
+		ft_error(NULL, NULL, NULL);
 	swap_val = (*stk)->val;
 	(*stk)->val = (*stk)->next->val;
 	(*stk)->next->val = swap_val;
+	return (1);
 }
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
 /*                           -  -                            */
@@ -35,12 +34,12 @@ void	swap_stk(t_list **stk)
 /*                         ___   ___                         */
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
 
-void	push_stk(t_list **stk, t_list **stk_to)
+int	push_stk(t_list **stk, t_list **stk_to)
 {
 	t_list	*node;
 
 	if (!*stk)
-		return ;
+		ft_error(NULL, NULL, NULL);
 	node = *stk;
 	*stk = (*stk)->next;
 	if (*stk)
@@ -48,6 +47,7 @@ void	push_stk(t_list **stk, t_list **stk_to)
 	node->next = NULL;
 	node->prev = NULL;
 	ft_lstadd_front(stk_to, node);
+	return (1);
 }
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
 /*                  ----      ----       ----                */
@@ -55,18 +55,17 @@ void	push_stk(t_list **stk, t_list **stk_to)
 /*                       ___        ___                      */
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
 
-void	rev_retate_stk(t_list	**stk)
+int	rev_retate_stk(t_list	**stk)
 {
 	t_list	*node;
 
-	if (!*stk)
-		return ;
-	if ((*stk)->next == NULL)
-		return ;
+	if (!*stk || !(*stk)->next)
+		ft_error(NULL, NULL, NULL);
 	node = *stk;
 	node->prev->next = *stk;
 	node->prev->prev->next = NULL;
 	*stk = node->prev;
+	return (1);
 }
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
 /*					----       ----        ----              */
@@ -74,18 +73,17 @@ void	rev_retate_stk(t_list	**stk)
 /*                        ___         ___                    */
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
 
-void	retate_stk(t_list **stk)
+int	retate_stk(t_list **stk)
 {
 	t_list	*node;
 	t_list	*sk;
 
-	if (!*stk)
-		return ;
-	if ((*stk)->next == NULL)
-		return ;
+	if (!*stk || !(*stk)->next)
+		ft_error(NULL, NULL, NULL);
 	sk = *stk;
 	node = sk->prev;
 	node->next = sk;
 	*stk = sk->next;
 	sk->next = NULL;
+	return (1);
 }

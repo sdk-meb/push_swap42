@@ -6,7 +6,7 @@
 /*   By: mes-sadk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 01:49:59 by mes-sadk          #+#    #+#             */
-/*   Updated: 2022/02/27 01:50:04 by mes-sadk         ###   ########.fr       */
+/*   Updated: 2022/03/14 12:19:07 by mes-sadk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "math.h"
@@ -40,11 +40,11 @@ char	evan_odd(int *val, char p, int to_p)
 	if ((n * 2) == *val)
 	{
 		if (p == 'O')
-			*val+= to_p;
+			*val += to_p;
 		return ('E');
 	}
 	if (p == 'E')
-		*val+= to_p;
+		*val += to_p;
 	return ('O');
 }
 

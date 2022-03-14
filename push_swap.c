@@ -6,7 +6,7 @@
 /*   By: mes-sadk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/08 09:58:30 by mes-sadk          #+#    #+#             */
-/*   Updated: 2022/02/13 15:21:22 by mes-sadk         ###   ########.fr       */
+/*   Updated: 2022/03/14 12:08:28 by mes-sadk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "sorted.h"
@@ -88,19 +88,10 @@ t_list	**great_list(int count, char **stk)
 int	main(int count, char **stk)
 {
 	t_list	**stack_a;
-	t_list	*q;
-	int i = -2;
-	i++;
-	
+
 	stack_a = great_list(count, stk);
 	if (check_dup_sort(stack_a) != -33)
 		algo_sorted(ft_lstsize(*stack_a), stack_a);
-	q = *stack_a;
-	while (q)
-	{
-		//printf("___%d______\n",q->x_sort - (i++) 	);
-		q = q->next;
-	}
 	ft_lstclear(stack_a);
 	return (0);
 }

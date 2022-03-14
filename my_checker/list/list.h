@@ -6,7 +6,7 @@
 /*   By: mes-sadk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/08 10:00:13 by mes-sadk          #+#    #+#             */
-/*   Updated: 2022/02/10 10:11:34 by mes-sadk         ###   ########.fr       */
+/*   Updated: 2022/03/14 12:41:50 by mes-sadk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define LIST_H
 
 # include <stdbool.h>
-#include <stdlib.h>
+# include <stdlib.h>
 
 typedef struct s_list
 {
@@ -24,7 +24,7 @@ typedef struct s_list
 }							t_list;
 
 t_list	*ft_lstnew(int num);
-int	ft_lstsize(t_list *lst);
+int		ft_lstsize(t_list *lst);
 void	ft_lstadd_front(t_list **lst, t_list *new);
 void	ft_lstadd_back(t_list **lst, t_list *new);
 t_list	*ft_lstlast(t_list **lst);

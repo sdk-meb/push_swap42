@@ -6,7 +6,7 @@
 /*   By: mes-sadk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 12:57:40 by mes-sadk          #+#    #+#             */
-/*   Updated: 2022/02/27 00:52:00 by mes-sadk         ###   ########.fr       */
+/*   Updated: 2022/03/14 12:16:25 by mes-sadk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "call_inst.h"
@@ -88,7 +88,8 @@ void	low_inst(t_list	**a, t_list	**b, int r, int c_v)
 			q[1] = -1;
 			q[0] = r - q[0];
 		}
-		if (q[8] == -33 || (q[1] != q[3] && q[0] + q[2] < q[8]) || (q[1] == q[3] && cmp_val(q[0], q[2], 'M' ) < q[8]))
+		if (q[8] == -33 || (q[1] != q[3] && q[0] + q[2] < q[8])
+			|| (q[1] == q[3] && cmp_val(q[0], q[2], 'M' ) < q[8]))
 		{
 			q[4] = q[0];
 			q[5] = q[1];
@@ -101,11 +102,11 @@ void	low_inst(t_list	**a, t_list	**b, int r, int c_v)
 		q[2] += p[0];
 		if (q[3] == 1 && q[2] >= (c_v - r + 1) / 2)
 		{
-				q[3] = c_v - r;
-				if (evan_odd(&q[3], 'O', 0) == 'O')
-					q[2] -= 1;
-				p[0] = -1;
-				q[3] = -1;
+			q[3] = c_v - r;
+			if (evan_odd(&q[3], 'O', 0) == 'O')
+				q[2] -= 1;
+			p[0] = -1;
+			q[3] = -1;
 		}
 		sb = sb->next;
 	}
@@ -118,7 +119,7 @@ void	low_inst(t_list	**a, t_list	**b, int r, int c_v)
 void	lis(t_list **stk, int c_v)
 {
 	int		lg_l[c_v + 1];
-	int 	h_val;
+	int		h_val;
 	t_list	*tv;
 	t_list	*v;
 
@@ -133,7 +134,7 @@ void	lis(t_list **stk, int c_v)
 		{
 			if (tv->x_sort > v->x_sort && lg_l[v->x_sort + 1] + 1 > lg_l[tv->x_sort + 1])
 				lg_l[tv->x_sort + 1] = lg_l[v->x_sort + 1] + 1;
-			v = v->next;	
+			v = v->next;
 		}
 		h_val = high_val(lg_l[tv->x_sort + 1], 0);
 		tv = tv->next;
@@ -224,13 +225,13 @@ void	call_inst_five(int c_v, t_list **a, t_list **b)
 		push_stk(a, b, 'b');
 	}
 	call_inst_th(3, a, 'a');
-	if (((*b)->x_sort == 0 || (*b)->next->x_sort == 0)
-		&& (*b)->next->x_sort > (*b)->x_sort)
+	if (((*b)->next->x_sort == 0)
+		|| (*b)->x_sort == 3)
 		swap_stk (b, 'b');
 	push_stk(b, a, 'a');
-	if ((*a)->x_sort > (*a)->prev->x_sort)
-		retate_stk (a, 'a');
 	push_stk(b, a, 'a');
+	if ((*a)->x_sort == 3)
+		retate_stk (a, 'a');
 }
 
 void	call_inst_(int c_v, t_list **a, t_list **b)
@@ -253,7 +254,7 @@ void	call_inst_(int c_v, t_list **a, t_list **b)
 		{
 			if (!(*a)->vouch)
 				push_stk(a, b, 'b');
-			else if(++r)
+			else if (++r)
 				retate_stk(a, 'a');
 		}
 		low_val((*a)->x_sort, 1);

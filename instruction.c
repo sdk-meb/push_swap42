@@ -80,6 +80,8 @@ void	rev_retate_stk(t_list	**stk, char name_stk)
 	node->prev->next = *stk;
 	node->prev->prev->next = NULL;
 	*stk = node->prev;
+	if (name_stk == 's')
+		name_stk = 'r';
 	if (name_stk != 'N')
 	{
 		write(1, "rr", 2);
@@ -107,6 +109,8 @@ void	retate_stk(t_list **stk, char name_stk)
 	node->next = sk;
 	*stk = sk->next;
 	sk->next = NULL;
+	if (name_stk == 's')
+		name_stk = 'r';
 	if (name_stk != 'N')
 	{
 		write(1, "r", 1);

@@ -11,44 +11,71 @@
 /* ************************************************************************** */
 #include "checker.h"
 
-void	ft_error(t_list **stk)
+void	ft_error(t_list **stk_a, t_list **stk_b, char *inst)
 {
-	ft_lstclear(stk);
-	write (1, "error", 5);
-	exit (-1);
+	static t_list	**a;
+	static t_list	**b;
+	static char		*ins;
+
+	if (a && b && !stk_a && !stk_b)
+	{
+		ft_lstclear(a);
+		ft_lstclear(b);
+		free(inst);
+		write (1, "error", 5);
+		exit (1);
+	}
+	ins = inst;
+	a = stk_a;
+	b = stk_b;
 }
 
-int	check_sort(t_list **stk)
+void	check_sort(t_list **stk, t_list **b)
 {
 	t_list	*p;
 
 	p = *stk;
+	if (*b)
+	{
+		write(1, "KO", 2);
+		return ;
+	}
 	while (p && p->next)
 	{
 		if (p->next->val < p->val)
-			return (1);
+		{
+			write(1, "KO", 2);
+			return ;
+		}
 		p = p->next;
 	}
-	return (0);
+	write(1, "OK", 2);
 }
 
 void	check_dup_sort(t_list	**stk)
 {
-	t_list		*node;
-	t_list		*nod;
-	int			val[2];
+	t_list		*ne;
+	t_list		*no;
+	char		*p;
 
-	nod = *stk;
-	while (nod)
+	p = "OK";
+	no = *stk;
+	while (no->next)
 	{
-		val[0] = nod->val;
-		node = nod->next;
-		while (node)
+		ne = no->next;
+		while (ne)
 		{
-			if (val[0] == node->val)
-				ft_error(stk);
-			node = node->next;
+			if (p[0] == 'O' && no->val > ne->val)
+				p = "no_sorted";
+			if (no->val == ne->val)
+				p = "error";
+			ne = ne->next;
 		}
-		nod = nod->next;
+		no = no->next;
 	}
+	if (p[0] == 'n')
+		return ;
+	write(1, p, ft_strlen(p));
+	ft_lstclear(stk);
+	exit (0);
 }

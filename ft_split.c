@@ -6,7 +6,7 @@
 /*   By: mes-sadk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 10:18:49 by mes-sadk          #+#    #+#             */
-/*   Updated: 2021/11/23 14:29:44 by mes-sadk         ###   ########.fr       */
+/*   Updated: 2022/03/14 12:07:16 by mes-sadk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "sorted.h"
@@ -78,7 +78,7 @@ char	**ft_split(char *s, char c, int *count)
 	if (!s)
 		return (NULL);
 	*count = (ft_words(s, c));
-	h = malloc( *count * sizeof(char *));
+	h = malloc(*count * sizeof(char *));
 	if (!h)
 		return (NULL);
 	spl.i = -1;

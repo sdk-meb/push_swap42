@@ -15,11 +15,8 @@ t_list	**great_list(int count, char **stk)
 {
 	t_list		**lst;
 
-	if (count <= 1)
-	{
-		write (1, "error", 5);
-		exit (-1);
-	}
+	if (count <= 1 || !(stk[1][0]))
+		exit (0);
 	lst = (t_list **)malloc(sizeof(lst));
 	if (!lst)
 		exit (-1);
