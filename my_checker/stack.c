@@ -15,11 +15,14 @@ t_list	**great_list(int count, char **stk)
 {
 	t_list		**lst;
 
-	if (count <= 1 || !(stk[1][0]))
+	if (!(stk[1][0]))
+	{
+		write (1, "Eroor", 5);
 		exit (0);
+	}
 	lst = (t_list **)malloc(sizeof(lst));
 	if (!lst)
-		exit (-1);
+		exit (1);
 	*lst = NULL;
 	if (count == 2)
 	{

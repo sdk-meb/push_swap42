@@ -22,7 +22,7 @@ int	swap_stk(t_list **stk)
 	int		swap_val;
 
 	if (!*stk || !(*stk)->next)
-		ft_error(NULL, NULL, NULL);
+		return (1);
 	swap_val = (*stk)->val;
 	(*stk)->val = (*stk)->next->val;
 	(*stk)->next->val = swap_val;
@@ -39,7 +39,7 @@ int	push_stk(t_list **stk, t_list **stk_to)
 	t_list	*node;
 
 	if (!*stk)
-		ft_error(NULL, NULL, NULL);
+		return (1);
 	node = *stk;
 	*stk = (*stk)->next;
 	if (*stk)
@@ -60,7 +60,7 @@ int	rev_retate_stk(t_list	**stk)
 	t_list	*node;
 
 	if (!*stk || !(*stk)->next)
-		ft_error(NULL, NULL, NULL);
+		return (1);
 	node = *stk;
 	node->prev->next = *stk;
 	node->prev->prev->next = NULL;
@@ -79,7 +79,7 @@ int	retate_stk(t_list **stk)
 	t_list	*sk;
 
 	if (!*stk || !(*stk)->next)
-		ft_error(NULL, NULL, NULL);
+		return (1);
 	sk = *stk;
 	node = sk->prev;
 	node->next = sk;

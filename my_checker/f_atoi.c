@@ -11,20 +11,6 @@
 /* ************************************************************************** */
 #include "checker.h"
 
-void	*ft_memcpy(void *dst, const void *src, size_t n)
-{
-	const char	*s;
-	char		*d;
-
-	if (!src && !dst)
-		return (NULL);
-	s = src;
-	d = dst;
-	while (n-- > 0)
-		*d++ = *s++;
-	return (dst);
-}
-
 int	ft_atoi(t_list **lstclr, char *str)
 {
 	int		i;
@@ -42,11 +28,11 @@ int	ft_atoi(t_list **lstclr, char *str)
 			n = (str[i] - 48) + (10 * n);
 		n = n * s;
 	}
-	if (str[i] || (n > 2147483647 || n < -2147483648))
+	if (!str[0] || str[i] || n > 2147483647 || n < -2147483648)
 	{
 		ft_lstclear(lstclr);
-		write (1, "error", 5);
-		exit (-1);
+		write (1, "Error", 5);
+		exit (1);
 	}
 	return (n);
 }

@@ -16,7 +16,7 @@ void	ft_lstadd_front(t_list **lst, t_list *new)
 	if (!(lst && new))
 	{
 		ft_lstclear(lst);
-		exit (-1);
+		exit (1);
 	}
 	if (!*lst)
 	{	

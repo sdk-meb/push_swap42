@@ -25,8 +25,7 @@ typedef struct integer{
 	int	n;
 }t_intgr;
 
-void	ft_error(t_list **stk_a, t_list **stk_b, char *inst);
-void	*ft_memcpy(void *dst, const void *src, size_t n);
+void	ft_error(t_list **stk_a, t_list **stk_b);
 void	check_dup_sort(t_list **stk);
 void	check_sort(t_list **stk, t_list **b);
 char	**ft_split(char *s, char c, int *count);
