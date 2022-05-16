@@ -6,12 +6,12 @@
 #    By: mes-sadk <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/15 17:40:35 by mes-sadk          #+#    #+#              #
-#    Updated: 2022/02/15 17:56:05 by mes-sadk         ###   ########.fr        #
+#    Updated: 2022/05/16 11:44:49 by mes-sadk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = push_swap.a
-check= checker.a
+NAME = push_swap
+check= checker
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
@@ -32,10 +32,10 @@ OBJ_CHECKER =  my_checker/check.o	 my_checker/f_atoi.o	 my_checker/instru.o \
 all: $(NAME)
 
 $(NAME) : $(OBJ_LIST) $(OBJ_SRC) $(OBJ_MATH)
-	@ar -r $(NAME) $(OBJ_SRC) $(OBJ_LIST) $(OBJ_MATH)
+	@cc  $(OBJ_SRC) $(OBJ_LIST) $(OBJ_MATH) -o ${NAME}
 
 bonus: $(NAME) ${OBJ_CHECKER}
-	@ar -r ${check} ${OBJ_CHECKER}
+	@cc -o ${check} ${OBJ_CHECKER}
 
 clean :
 	@rm -rf $(OBJ_LIST) $(OBJ_SRC) $(OBJ_MATH) ${OBJ_CHECKER}
